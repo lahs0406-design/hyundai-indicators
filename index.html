@@ -670,7 +670,8 @@ function addReport(org){
    ECOS API 연동
    ══════════════════════════════════════════ */
 var ECOS_KEY = 'SUMYLXA0YAQ1FNS9I8GL';
-var ECOS_BASE = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/14/';
+var ECOS_BASE_M = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/14/';
+var ECOS_BASE_D = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/400/';
 
 // 지표별 ECOS StatisticSearch 파라미터 매핑
 // format: {stat, item, item2(optional), cycle}
@@ -718,7 +719,7 @@ async function fetchEcosTimeSeries(key) {
     endYM = nowYM();
     startYM = addMonths(endYM, -13);
   }
-  var ecosUrl = ECOS_BASE + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
+  var ecosUrl = (cfg.cycle==='D'?ECOS_BASE_D:ECOS_BASE_M) + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
   if(cfg.item2) ecosUrl += '/' + cfg.item2;
 
   // CORS 프록시 경유 (corsproxy.io)
