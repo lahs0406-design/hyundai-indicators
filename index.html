@@ -702,17 +702,22 @@ function nowYM() {
   return d.getFullYear().toString() + (d.getMonth()<9?'0':'')+(d.getMonth()+1).toString();
 }
 
-// ECOS에서 13개월 시계열 fetch (최신 발표 기준 자동 조정)
+// ECOS에서 13개월 시계열 fetch (CORS 프록시 경유)
 async function fetchEcosTimeSeries(key) {
   var cfg = ECOS_MAP[key];
   if(!cfg) return null;
   var endYM = nowYM();
   var startYM = addMonths(endYM, -13);
-  var url = ECOS_BASE + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
-  if(cfg.item2) url += '/' + cfg.item2;
+  var ecosUrl = ECOS_BASE + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
+  if(cfg.item2) ecosUrl += '/' + cfg.item2;
+
+  // CORS 프록시 경유 (allorigins.win)
+  var proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(ecosUrl);
+
   try {
-    var res = await fetch(url);
-    var json = await res.json();
+    var res = await fetch(proxyUrl);
+    var outer = await res.json();
+    var json = JSON.parse(outer.contents);
     var rows = (json.StatisticSearch||{}).row||[];
     if(rows.length === 0) return null;
     return rows.map(function(r){
