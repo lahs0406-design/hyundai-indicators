@@ -675,16 +675,15 @@ var ECOS_BASE = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr
 // 지표별 ECOS StatisticSearch 파라미터 매핑
 // format: {stat, item, item2(optional), cycle}
 var ECOS_MAP = {
-  csi:        {stat:'511Y002', item:'FME',     item2:'99988', cycle:'MM'},
-  rate:       {stat:'722Y001', item:'0101000', item2:null,    cycle:'MM'},
-  fx:         {stat:'731Y001', item:'0000001', item2:null,    cycle:'MM'},
-  cpi:        {stat:'901Y009', item:'0',       item2:null,    cycle:'MM'},
-  retail:     {stat:'502Y003', item:'003',     item2:null,    cycle:'MM'},
-  employ:     {stat:'901Y027', item:'0101AN',  item2:null,    cycle:'MM'},
-  service:    {stat:'502Y003', item:'091',     item2:null,    cycle:'MM'},
-  distrib:    {stat:'901Y043', item:'001001',  item2:null,    cycle:'MM'},
-  kospi:      {stat:'802Y001', item:'0001',    item2:null,    cycle:'MM'},
-  houseprice: {stat:'901Y107', item:'0101',    item2:null,    cycle:'MM'}
+  csi:        {stat:'511Y002', item:'FME',      item2:'99988',  cycle:'M'},
+  rate:       {stat:'722Y001', item:'0101000',  item2:null,     cycle:'M'},
+  fx:         {stat:'731Y004', item:'0000001',  item2:'0000100',cycle:'M'},
+  cpi:        {stat:'901Y009', item:'0',        item2:null,     cycle:'M'},
+  retail:     {stat:'901Y098', item:'I74B',     item2:'I74B',   cycle:'M'},
+  employ:     {stat:'901Y027', item:'I61E',     item2:'I28A',   cycle:'M'},
+  service:    {stat:'901Y038', item:'I51A',     item2:'2',      cycle:'M'},
+  kospi:      {stat:'802Y001', item:'0001000',  item2:null,     cycle:'D'},
+  houseprice: {stat:'901Y062', item:'P63A',     item2:null,     cycle:'M'}
 };
 
 // 날짜 헬퍼: YYYYMM 형식으로 n개월 전/후
@@ -706,8 +705,19 @@ function nowYM() {
 async function fetchEcosTimeSeries(key) {
   var cfg = ECOS_MAP[key];
   if(!cfg) return null;
-  var endYM = nowYM();
-  var startYM = addMonths(endYM, -13);
+  var endYM, startYM;
+  if(cfg.cycle === 'D') {
+    // 일별: YYYYMMDD 형식, 최근 365일
+    var now = new Date();
+    var yr = now.getFullYear(), mo = now.getMonth(), dy = now.getDate();
+    endYM = yr.toString() + (mo<9?'0':'')+(mo+1).toString() + (dy<10?'0':'')+dy.toString();
+    var past = new Date(now); past.setFullYear(past.getFullYear()-1);
+    var py = past.getFullYear(), pm = past.getMonth(), pd = past.getDate();
+    startYM = py.toString() + (pm<9?'0':'')+(pm+1).toString() + (pd<10?'0':'')+pd.toString();
+  } else {
+    endYM = nowYM();
+    startYM = addMonths(endYM, -13);
+  }
   var ecosUrl = ECOS_BASE + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
   if(cfg.item2) ecosUrl += '/' + cfg.item2;
 
