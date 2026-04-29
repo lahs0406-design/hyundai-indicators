@@ -807,19 +807,40 @@ var ECOS_MAP = {
    · KOSIS 연동 지표 추가 시 여기에 등록
    ═══════════════════════════════════════════ */
 var KOSIS_MAP = {
-  /* 유통채널 */
-  dept:        {orgId:'115', tblId:'DT_115023_200', itmId:'T002+', objL1:'0013+',             filter:{C1:'0013',              ITM_ID:'T002'}},
-  mart:        {orgId:'115', tblId:'DT_115023_100', itmId:'T002+', objL1:'0011+',             filter:{C1:'0011',              ITM_ID:'T002'}},
-  convenience: {orgId:'115', tblId:'DT_115023_300', itmId:'T002+', objL1:'0014+',             filter:{C1:'0014',              ITM_ID:'T002'}},
-  online:      {orgId:'101', tblId:'DT_1KE10051',   itmId:'T20+',  objL1:'000+', objL2:'00+', filter:{C1:'000', C2:'00',      ITM_ID:'T20'}},
-  /* 자산시장 */
-  housetrade:  {orgId:'408', tblId:'DT_408_2006_S0051', itmId:'13103114435T1+', objL1:'13102114435A.0001+', filter:{C1:'13102114435A.0001', ITM_ID:'13103114435T1'}},
-  /* 관광 */
-  tourist:     {orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH', itmId:'13103314423T01+', objL1:'13102314423A.1+',  filter:{C1:'13102314423A.1',   ITM_ID:'13103314423T01'}},
-  outbound:    {orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH', itmId:'13103836116T01+', objL1:'13102836116A.01+', filter:{C1:'13102836116A.01',  ITM_ID:'13103836116T01'}},
-  /* 인구동향 (출생·혼인만, birth→birthrate / marriage→marriagerate) */
-  birthrate:   {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'10+', filter:{C1:'00', C2:'10', ITM_ID:'T1'}},
-  marriagerate:{orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'20+', filter:{C1:'00', C2:'20', ITM_ID:'T1'}}
+  /* ── 유통채널 (산업통상자원부 주요 유통업체 매출 동향) ──
+     orgId=115, 전년동월비(T002) 기준
+     ※ 편의점은 DT_115023_300이 없을 수 있어 DT_115023_200 같은 테이블 내 코드 분리 */
+  dept:        {orgId:'115', tblId:'DT_115023_200', itmId:'T002+', objL1:'0013+',
+                filter:{C1:'0013', ITM_ID:'T002'}},
+  mart:        {orgId:'115', tblId:'DT_115023_100', itmId:'T002+', objL1:'0011+',
+                filter:{C1:'0011', ITM_ID:'T002'}},
+  convenience: {orgId:'115', tblId:'DT_115023_300', itmId:'T002+', objL1:'0014+',
+                filter:{C1:'0014', ITM_ID:'T002'}},
+  /* ── 온라인쇼핑 (통계청 온라인쇼핑동향조사) ── */
+  online:      {orgId:'101', tblId:'DT_1KE10051', itmId:'T20+', objL1:'000+', objL2:'00+',
+                filter:{C1:'000', C2:'00', ITM_ID:'T20'}},
+  /* ── 주택거래량 (국토교통부 주택매매거래량) ── */
+  housetrade:  {orgId:'116', tblId:'DT_MLTM_2400205', itmId:'T10+', objL1:'00+',
+                filter:{C1:'00', ITM_ID:'T10'},
+                fallback:{orgId:'408', tblId:'DT_408_2006_S0051',
+                          itmId:'13103114435T1+', objL1:'13102114435A.0001+',
+                          filter:{C1:'13102114435A.0001', ITM_ID:'13103114435T1'}}},
+  /* ── 관광 (한국관광공사) ── */
+  tourist:     {orgId:'551', tblId:'DT_551_KTO_002', itmId:'T1+', objL1:'ALL+',
+                filter:{ITM_ID:'T1'},
+                fallback:{orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH',
+                          itmId:'13103314423T01+', objL1:'13102314423A.1+',
+                          filter:{C1:'13102314423A.1', ITM_ID:'13103314423T01'}}},
+  outbound:    {orgId:'551', tblId:'DT_551_KTO_001', itmId:'T1+', objL1:'ALL+',
+                filter:{ITM_ID:'T1'},
+                fallback:{orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH',
+                          itmId:'13103836116T01+', objL1:'13102836116A.01+',
+                          filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'}}},
+  /* ── 인구동향 (통계청 인구동향조사) ── */
+  birthrate:   {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'10+',
+                filter:{C1:'00', C2:'10', ITM_ID:'T1'}},
+  marriagerate:{orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'20+',
+                filter:{C1:'00', C2:'20', ITM_ID:'T1'}}
 };
 
 /* ═══════════════════════════════════════════
@@ -1114,37 +1135,55 @@ async function fetchPrevEcos(key) {
    · fetchKosisTimeSeries(key): 최근 13개월
    · fetchPrevKosis(key): 전년 동기 13개월
    ═══════════════════════════════════════════ */
-async function fetchKosisTimeSeries(key) {
-  var cfg = KOSIS_MAP[key];
-  if(!cfg) return null;
-  var url = KOSIS_BASE+KOSIS_KEY+'&orgId='+cfg.orgId+'&tblId='+cfg.tblId+'&itmId='+cfg.itmId+'&objL1='+(cfg.objL1||'')+'&objL2='+(cfg.objL2||'')+'&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+/* ─── KOSIS 단일 cfg로 fetch ─────────────────────────────── */
+async function _kosisOneFetch(cfg, sliceFn) {
+  var url = KOSIS_BASE + KOSIS_KEY
+    + '&orgId='  + cfg.orgId
+    + '&tblId='  + cfg.tblId
+    + '&itmId='  + cfg.itmId
+    + '&objL1='  + (cfg.objL1 || '')
+    + '&objL2='  + (cfg.objL2 || '')
+    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res = await fetch('https://corsproxy.io/?'+encodeURIComponent(url));
+    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
     var rows = await res.json();
-    if(!Array.isArray(rows)||rows.length===0) return null;
+    if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
-    var filtered = rows.filter(function(r){ return Object.keys(f).every(function(k){ return r[k]===f[k]; }); });
+    var filtered = rows.filter(function(r){
+      return Object.keys(f).every(function(k){ return r[k] === f[k]; });
+    });
+    if(filtered.length === 0) return null;
     filtered.sort(function(a,b){ return a.PRD_DE.localeCompare(b.PRD_DE); });
-    var recent = filtered.slice(-13);
-    return recent.map(function(r){ return {ym:r.PRD_DE, val:parseFloat(r.DT)}; });
+    var sliced = sliceFn(filtered);
+    return sliced.map(function(r){ return {ym: r.PRD_DE, val: parseFloat(r.DT)}; });
   } catch(e) { return null; }
 }
 
+/* ─── 최근 13개월: 1차 cfg 실패 시 fallback cfg 시도 ────── */
+async function fetchKosisTimeSeries(key) {
+  var cfg = KOSIS_MAP[key];
+  if(!cfg) return null;
+  var sliceFn = function(arr){ return arr.slice(-13); };
+  var result = await _kosisOneFetch(cfg, sliceFn);
+  if(!result && cfg.fallback) {
+    result = await _kosisOneFetch(cfg.fallback, sliceFn);
+  }
+  return result;
+}
+
+/* ─── 전년 동기 13개월: 1차 cfg 실패 시 fallback cfg 시도 ─ */
 async function fetchPrevKosis(key) {
   var cfg = KOSIS_MAP[key];
   if(!cfg) return null;
-  var url = KOSIS_BASE+KOSIS_KEY+'&orgId='+cfg.orgId+'&tblId='+cfg.tblId+'&itmId='+cfg.itmId+'&objL1='+(cfg.objL1||'')+'&objL2='+(cfg.objL2||'')+'&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
-  try {
-    var res = await fetch('https://corsproxy.io/?'+encodeURIComponent(url));
-    var rows = await res.json();
-    if(!Array.isArray(rows)||rows.length===0) return null;
-    var f = cfg.filter;
-    var filtered = rows.filter(function(r){ return Object.keys(f).every(function(k){ return r[k]===f[k]; }); });
-    filtered.sort(function(a,b){ return a.PRD_DE.localeCompare(b.PRD_DE); });
-    var prev = filtered.slice(0, filtered.length - 13);
-    var recent13 = prev.slice(-13);
-    return recent13.map(function(r){ return {ym:r.PRD_DE, val:parseFloat(r.DT)}; });
-  } catch(e) { return null; }
+  var sliceFn = function(arr){
+    var prev = arr.slice(0, arr.length - 13);
+    return prev.slice(-13);
+  };
+  var result = await _kosisOneFetch(cfg, sliceFn);
+  if(!result && cfg.fallback) {
+    result = await _kosisOneFetch(cfg.fallback, sliceFn);
+  }
+  return result;
 }
 
 /* ═══════════════════════════════════════════
