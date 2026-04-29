@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>백화점 영향 외부지표 현황 · 현대백화점 v2.1</title>
+<title>백화점 영향 외부지표 현황 · 현대백화점</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -191,20 +191,20 @@ footer{padding:1.25rem;text-align:center;font-size:11px;color:var(--text3);borde
   <div class="sidebar-hd">
     <div class="sidebar-label">1 · 지표 추세</div>
     <div class="cat-grid">
-      <button class="cat-col-btn open" onclick="toggleCat(this,'grp1')"><span class="em">💬</span>소비심리</button>
-      <button class="cat-col-btn" onclick="toggleCat(this,'grp2')"><span class="em">💰</span>소득·고용</button>
-      <button class="cat-col-btn" onclick="toggleCat(this,'grp3')"><span class="em">📈</span>물가·금리</button>
-      <button class="cat-col-btn" onclick="toggleCat(this,'grp4')"><span class="em">🏠</span>자산시장</button>
-      <button class="cat-col-btn" onclick="toggleCat(this,'grp5')"><span class="em">🛍️</span>유통채널</button>
-      <button class="cat-col-btn" onclick="toggleCat(this,'grp6')"><span class="em">👶</span>인구동향</button>
+      <button class="cat-col-btn" onclick="toggleCat(this,'grp1')"><span class="em">📊</span>소비여력</button>
+      <button class="cat-col-btn open" onclick="toggleCat(this,'grp2')"><span class="em">💬</span>소비의지</button>
+      <button class="cat-col-btn" onclick="toggleCat(this,'grp3')"><span class="em">⚠️</span>제약요인</button>
+      <button class="cat-col-btn" onclick="toggleCat(this,'grp4')"><span class="em">🏠</span>자산효과</button>
+      <button class="cat-col-btn" onclick="toggleCat(this,'grp5')"><span class="em">🌍</span>외부변수</button>
+      <button class="cat-col-btn" onclick="toggleCat(this,'grp6')"><span class="em">📈</span>경기활성화</button>
     </div>
   </div>
-  <div class="sub-panel open" id="grp1"><button class="sub-btn on" onclick="selChart('csi',this,'grp1')">소비자심리지수</button></div>
-  <div class="sub-panel" id="grp2"><button class="sub-btn" onclick="selChart('income',this,'grp2')">가계소득</button><button class="sub-btn" onclick="selChart('employ',this,'grp2')">고용률</button></div>
-  <div class="sub-panel" id="grp3"><button class="sub-btn" onclick="selChart('cpi',this,'grp3')">소비자물가</button><button class="sub-btn" onclick="selChart('rate',this,'grp3')">기준금리</button></div>
-  <div class="sub-panel" id="grp4"><button class="sub-btn" onclick="selChart('kospi',this,'grp4')">KOSPI</button><button class="sub-btn" onclick="selChart('houseprice',this,'grp4')">주택매매가격</button><button class="sub-btn" onclick="selChart('housetrade',this,'grp4')">주택거래량</button><button class="sub-btn" onclick="selChart('fx',this,'grp4')">환율</button></div>
-  <div class="sub-panel" id="grp5"><button class="sub-btn" onclick="selChart('dept',this,'grp5')">백화점매출(전년비)</button><button class="sub-btn" onclick="selChart('mart',this,'grp5')">대형마트매출</button><button class="sub-btn" onclick="selChart('convenience',this,'grp5')">편의점매출</button><button class="sub-btn" onclick="selChart('online',this,'grp5')">온라인쇼핑</button><button class="sub-btn" onclick="selChart('retail',this,'grp5')">소매판매지수</button><button class="sub-btn" onclick="selChart('service',this,'grp5')">서비스업생산</button><button class="sub-btn" onclick="selChart('tourist',this,'grp5')">방한외국인</button><button class="sub-btn" onclick="selChart('outbound',this,'grp5')">내국인출국</button></div>
-  <div class="sub-panel" id="grp6"><button class="sub-btn" onclick="selChart('birth',this,'grp6')">출생아수</button><button class="sub-btn" onclick="selChart('death',this,'grp6')">사망자수</button><button class="sub-btn" onclick="selChart('marriage',this,'grp6')">혼인건수</button><button class="sub-btn" onclick="selChart('divorce',this,'grp6')">이혼건수</button></div>
+  <div class="sub-panel" id="grp1"><button class="sub-btn" onclick="selChart('income',this,'grp1')">가계소득</button><button class="sub-btn" onclick="selChart('employ',this,'grp1')">고용률</button></div>
+  <div class="sub-panel open" id="grp2"><button class="sub-btn on" onclick="selChart('csi',this,'grp2')">소비자심리지수</button></div>
+  <div class="sub-panel" id="grp3"><button class="sub-btn" onclick="selChart('rate',this,'grp3')">기준금리</button><button class="sub-btn" onclick="selChart('cpi',this,'grp3')">소비자물가</button></div>
+  <div class="sub-panel" id="grp4"><button class="sub-btn" onclick="selChart('houseprice',this,'grp4')">주택매매가격</button><button class="sub-btn" onclick="selChart('housetrade',this,'grp4')">주택거래량</button><button class="sub-btn" onclick="selChart('fx',this,'grp4')">환율</button><button class="sub-btn" onclick="selChart('kospi',this,'grp4')">KOSPI</button><button class="sub-btn" onclick="selChart('nasdaq',this,'grp4')">나스닥</button><button class="sub-btn" onclick="selChart('sp500',this,'grp4')">S&P500</button></div>
+  <div class="sub-panel" id="grp5"><button class="sub-btn" onclick="selChart('tourist',this,'grp5')">관광객</button><button class="sub-btn" onclick="selChart('oil',this,'grp5')">유가(WTI)</button><button class="sub-btn" onclick="selChart('temp',this,'grp5')">기온</button><button class="sub-btn" onclick="selChart('rain',this,'grp5')">강수량</button><button class="sub-btn" onclick="selChart('holiday',this,'grp5')">공휴일</button></div>
+  <div class="sub-panel" id="grp6"><button class="sub-btn" onclick="selChart('retail',this,'grp6')">소매판매</button><button class="sub-btn" onclick="selChart('service',this,'grp6')">서비스업활동</button><button class="sub-btn" onclick="selChart('distrib',this,'grp6')">유통업체매출</button></div>
   <div class="sidebar-chart">
     <div class="chart-name" id="ctitle">소비자심리지수 (CCSI)</div>
     <div class="chart-src" id="cmeta">출처: 한국은행 · 월별 발표 · 기준선 100</div>
@@ -491,36 +491,190 @@ const CD={
   kospi:{unit:'p',title:'KOSPI 지수',meta:'출처: 한국거래소 · 월말 종가',data:[2497,2612,2747,2676,2721,2797,2780,2674,2650,2591,2460,2399],color:'#7F77DD',cur:'2,399p',avg:'2,642p',yoy:'-98p',chg:'▼ -61p',cc:'down',note:'자산 효과 위축',yn:'고소득층 소비심리 영향',prompt:'KOSPI가 2,399포인트로 하락하며 연중 저점에 근접하고 있습니다. 주가 하락의 주요 원인과 현대백화점 VIP 고객의 명품·리빙 소비 심리에 미치는 자산 효과를 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
   nasdaq:{title:'나스닥 지수',meta:'출처: NASDAQ · 월말 종가',data:[14226,14766,15928,15928,16735,17734,17599,17713,17924,18542,19403,19310],color:'#185FA5',cur:'19,310p',avg:'17,235p',yoy:'+3,084p',chg:'▼ -93p',cc:'down',note:'AI주 조정 국면',yn:'글로벌 자산가 심리 영향',prompt:'나스닥 지수가 최근 조정 국면에 있습니다. 글로벌 증시 흐름이 국내 고소득 투자자들의 자산 효과와 백화점 명품 소비에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
   sp500:{title:'S&P 500 지수',meta:'출처: S&P · 월말 종가',data:[4769,4958,5254,5254,5460,5460,5522,5648,5762,5705,5882,5882],color:'#1D9E75',cur:'5,882p',avg:'5,380p',yoy:'+1,113p',chg:'= 보합',cc:'neu',note:'미국 증시 최고권',yn:'글로벌 소비 심리 안정',prompt:'S&P500이 사상 최고 수준을 유지하고 있습니다. 미국 증시 강세가 글로벌 부유층 소비 심리와 방한 관광객 구매력에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  dept:{title:'백화점 매출증감률 (전년동월비, %)',meta:'출처: 산업통상자원부 · 월별 발표',color:'#185FA5',unit:'%',note:'전년동월대비 증감률',yn:'오프라인 소비 동향',prompt:'백화점 매출증감률의 최근 추세와 온라인 채널 경쟁, 외국인 관광객 효과 등 백화점 소비에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  mart:{title:'대형마트 매출증감률 (전년동월비, %)',meta:'출처: 산업통상자원부 · 월별 발표',color:'#1D9E75',unit:'%',note:'전년동월대비 증감률',yn:'오프라인 대형마트 동향',prompt:'대형마트 매출 동향과 백화점 식품관과의 경쟁 구도를 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  convenience:{title:'편의점 매출증감률 (전년동월비, %)',meta:'출처: 산업통상자원부 · 월별 발표',color:'#D85A30',unit:'%',note:'전년동월대비 증감률',yn:'근거리 소비 트렌드',prompt:'편의점 매출 동향과 소비 트렌드 변화가 유통채널에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  online:{title:'온라인쇼핑 거래액 (억원)',meta:'출처: 통계청 · 월별 발표',color:'#7F77DD',unit:'억원',note:'전체 온라인쇼핑 거래액',yn:'온라인 채널 성장세',prompt:'온라인쇼핑 거래액 증가 추세와 오프라인 백화점 채널에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  // ── 인구동향 (KOSIS) ──
-  birth:{title:'출생아수 (명)',meta:'출처: 통계청 인구동향조사 · 월별 발표',color:'#3B9CE8',unit:'명',note:'전국 월별 출생아수',yn:'유아동 카테고리 수요 선행지표',prompt:'출생아수 추세와 유아동 카테고리 수요에 미치는 중장기적 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  death:{title:'사망자수 (명)',meta:'출처: 통계청 인구동향조사 · 월별 발표',color:'#888',unit:'명',note:'전국 월별 사망자수',yn:'인구 고령화 지표',prompt:'사망자수 추세와 인구 고령화가 소비 패턴에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  marriage:{title:'혼인건수 (건)',meta:'출처: 통계청 인구동향조사 · 월별 발표',color:'#E8A03B',unit:'건',note:'전국 월별 혼인건수',yn:'예물·혼수 수요 선행지표',prompt:'혼인건수 추세와 워치·주얼리, 리빙 카테고리 수요에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  divorce:{title:'이혼건수 (건)',meta:'출처: 통계청 인구동향조사 · 월별 발표',color:'#BA7517',unit:'건',note:'전국 월별 이혼건수',yn:'가구 분화에 따른 소비 변화',prompt:'이혼건수 추세와 가구 분화에 따른 리빙·생활용품 소비 변화를 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  // ── 외부변수 (KOSIS) ──
-  tourist:{title:'방한 외국인 관광객 수 (명)',meta:'출처: 한국관광공사 · 월별 발표',color:'#1D9E75',unit:'명',note:'전국 월별 외래객 입국 총계',yn:'뷰티·명품 외국인 수요 지표',prompt:'방한 외국인 관광객 수 추세와 현대백화점 뷰티·명품·식품 카테고리 매출에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-  outbound:{title:'내국인 출국자 수 (명)',meta:'출처: 한국관광공사 · 월별 발표',color:'#D85A30',unit:'명',note:'전국 월별 내국인 출국 총계',yn:'국내 소비 유출 모니터링 지표',prompt:'내국인 출국자 수 추세와 국내 백화점 소비 유출 가능성, 출국 증가가 오프라인 유통채널에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
-};
-var KOSIS_KEY = 'MmMwYTNiZWQ5MTJhZmM5MzI3Yzk4N2ZhYTg1N2VhZmQ=';
-var KOSIS_BASE = 'https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=26&prdInterval=1&apiKey=';
-
-// KOSIS 지표 매핑
-var KOSIS_MAP = {
-  dept:       {orgId:'115', tblId:'DT_115023_200', itmId:'T002+', objL1:'0013+', filter:{C1:'0013', ITM_ID:'T002'}},
-  mart:       {orgId:'115', tblId:'DT_115023_100', itmId:'T002+', objL1:'0011+', filter:{C1:'0011', ITM_ID:'T002'}},
-  online:     {orgId:'101', tblId:'DT_1KE10051',   itmId:'T20+',  objL1:'000+',  objL2:'00+', filter:{C1:'000', C2:'00', ITM_ID:'T20'}},
-  housetrade: {orgId:'408', tblId:'DT_408_2006_S0051', itmId:'13103114435T1+', objL1:'13102114435A.0001+', objL2:'13102114435B.0001', filter:{C1:'13102114435A.0001', ITM_ID:'13103114435T1'}},
-  birth:      {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'10+', filter:{C1:'00', C2:'10', ITM_ID:'T1'}},
-  death:      {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'15+', filter:{C1:'00', C2:'15', ITM_ID:'T1'}},
-  marriage:   {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'20+', filter:{C1:'00', C2:'20', ITM_ID:'T1'}},
-  divorce:    {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'30+', filter:{C1:'00', C2:'30', ITM_ID:'T1'}},
-  tourist:    {orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH', itmId:'13103314423T01+', objL1:'13102314423A.1+', filter:{C1:'13102314423A.1', ITM_ID:'13103314423T01'}},
-  outbound:   {orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH', itmId:'13103836116T01+', objL1:'13102836116A.01+', filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'}}
+  tourist:{title:'방한 외국인 관광객 수 (만 명)',meta:'출처: 한국관광공사 · 월별 발표',data:[98,87,105,122,131,145,158,170,148,136,119,108],color:'#1D9E75',cur:'108만',avg:'127만',yoy:'+22%',chg:'▲ +22%',cc:'up',note:'중국 단체관광 재개',yn:'연간 1,600만 회복 전망',prompt:'방한 외국인 관광객이 전년 대비 22% 증가하며 회복세를 보이고 있습니다. 최근 관광 트렌드와 현대백화점 뷰티·명품·식품 카테고리 매출에 미치는 시사점을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  oil:{title:'유가 WTI (달러/배럴)',meta:'출처: EIA · 월평균',data:[72.5,76.9,81.2,83.1,80.7,81.5,76.8,74.2,70.6,68.3,65.8,62.0],color:'#BA7517',cur:'$62.0',avg:'$74.5',yoy:'-$18.5',chg:'▼ -$3.8',cc:'down',note:'중동 긴장 완화',yn:'물가 안정 / 급등 시 위험',prompt:'WTI 유가가 최근 하락세를 보이고 있습니다. 유가 변화가 국내 소비자물가와 백화점 고객의 실질 구매력에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  temp:{title:'서울 월평균 기온 (°C)',meta:'출처: 기상청 · 월별 관측',data:[-2.3,0.1,6.8,13.2,19.5,23.8,27.2,28.1,22.4,15.6,7.3,1.2],prev:[-3.1,-0.5,6.2,12.8,18.9,23.2,26.8,27.5,21.8,14.9,6.5,0.4],color:'#D85A30',cur:'1.2°C',avg:'13.6°C',yoy:'+0.8°C',chg:'▼ -6.1°C',cc:'down',note:'겨울 시즌 진입',yn:'아우터 수요 증가',prompt:'서울의 기온이 계절적 하락세를 보이고 있습니다. 기온 변화가 백화점 의류·아우터 카테고리 수요와 방문 빈도에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  rain:{title:'서울 월 강수량 (mm)',meta:'출처: 기상청 · 월별 관측',data:[21.5,40.2,45.8,64.3,93.2,115.8,394.7,268.3,130.2,44.8,52.3,18.9],prev:[24.7,37.1,51.2,70.8,98.5,120.3,380.2,290.1,148.7,49.6,55.5,22.1],color:'#378ADD',cur:'18.9mm',avg:'107.5mm',yoy:'-3.2mm',chg:'▼ -33.4mm',cc:'neu',note:'건조한 겨울',yn:'우천 시 방문율 감소',prompt:'최근 강수량 패턴이 백화점 고객 방문 빈도와 구매 행동에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  holiday:{title:'월별 공휴일 수 (일)',meta:'출처: 인사혁신처 · 연간 공휴일',data:[3,1,1,4,2,1,0,2,2,3,1,3],prev:[2,1,1,3,2,1,1,2,2,2,1,2],color:'#639922',cur:'3일',avg:'1.9일',yoy:'+1일',chg:'▲ +2일',cc:'up',note:'크리스마스·연말',yn:'연말 집객 호조',prompt:'12월 공휴일과 연말 연휴가 백화점 매출과 고객 방문 패턴에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  retail:{unit:'',title:'소매판매액지수 (전년비, %)',meta:'출처: 통계청 · 월별 발표',data:[2.1,1.8,1.5,0.8,-0.3,-0.5,0.2,0.9,1.3,0.5,1.3,0.1],color:'#1D9E75',cur:'+0.1%',avg:'+0.8%',yoy:'-2.0%p',chg:'▼ -1.2%p',cc:'down',note:'내구재 vs 비내구재 양극화',yn:'백화점 채널 회복 미흡',prompt:'소매판매액지수가 최근 부진한 흐름을 보이고 있습니다. 소매판매 구조 변화가 백화점 채널에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  service:{unit:'',title:'서비스업활동지수 (전년비, %)',meta:'출처: 통계청 · 월별 발표',data:[3.2,2.8,3.5,4.1,3.8,3.2,2.9,3.1,3.5,3.8,3.1,4.4],color:'#7F77DD',cur:'+4.4%',avg:'+3.5%',yoy:'+1.2%p',chg:'▲ +1.3%p',cc:'up',note:'정보통신·금융 주도',yn:'서비스 소비 회복',prompt:'서비스업활동지수가 개선세를 보이고 있습니다. 서비스 소비 회복이 백화점 F&B·체험형 서비스 카테고리에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'},
+  distrib:{title:'유통업체 매출 증가율 (%, 전년비)',meta:'출처: 산업통상자원부 · 월별 발표',data:[3.5,4.2,2.8,1.5,2.2,3.1,4.5,5.2,4.8,3.9,4.1,5.3],color:'#D85A30',cur:'+5.3%',avg:'+3.8%',yoy:'+1.8%p',chg:'▲ +1.2%p',cc:'up',note:'백화점·편의점 주도',yn:'오프라인 유통 회복세',prompt:'유통업체 매출이 증가세를 보이고 있습니다. 채널별 소비 이동 트렌드와 현대백화점의 포지셔닝을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'}
 };
 
+let mc=null,curKey='csi';
+
+function toggleCat(btn,grpId){
+  var sub=document.getElementById(grpId);
+  var isOpen=sub.classList.contains('open');
+  document.querySelectorAll('.sub-panel').forEach(function(s){s.classList.remove('open');});
+  document.querySelectorAll('.cat-col-btn').forEach(function(b){b.classList.remove('open');});
+  if(!isOpen){sub.classList.add('open');btn.classList.add('open');}
+}
+
+function selChart(k,btn,grpId){
+  curKey=k;
+  document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.querySelectorAll('.sub-panel').forEach(function(s){s.classList.remove('open');});
+  document.querySelectorAll('.cat-col-btn').forEach(function(b){b.classList.remove('open');});
+  var grp=document.getElementById(grpId);
+  grp.classList.add('open');
+  var idx=parseInt(grpId.replace('grp',''))-1;
+  var catBtns=document.querySelectorAll('.cat-col-btn');
+  if(catBtns[idx]) catBtns[idx].classList.add('open');
+  var d=CD[k]; if(!d) return;
+  document.getElementById('ctitle').textContent=d.title;
+  document.getElementById('cmeta').textContent=d.meta;
+  document.getElementById('scur').textContent=d.cur;
+  document.getElementById('savg').textContent=d.avg;
+  document.getElementById('syoy').textContent=d.yoy;
+  var schg=document.getElementById('schg'); schg.textContent=d.chg; schg.className='kc '+d.cc;
+  document.getElementById('snote').textContent=d.note;
+  document.getElementById('synote').textContent=d.yn;
+  var interp=document.getElementById('ai-interp');
+  interp.textContent='버튼을 눌러 이 지표의 AI 해석을 불러오세요.';
+  interp.style.color='var(--text2)';
+  document.getElementById('ai-pulse').style.display='none';
+  document.getElementById('ai-gen-btn').style.display='inline-block';
+  if(mc){mc.destroy(); mc=null;}
+  setTimeout(function(){
+    var ctx=document.getElementById('mc').getContext('2d');
+    var datasets=[{label:'금년',data:d.data,borderColor:d.color,backgroundColor:d.color+'18',borderWidth:2,pointRadius:3,pointBackgroundColor:d.color,fill:true,tension:0.35}];
+    if(d.prev){
+      datasets.push({label:'전년',data:d.prev,borderColor:d.color+'88',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:d.color+'88',fill:false,tension:0.35});
+    }
+    var showLegend=!!d.prev;
+    // 전년비교 안내 배너
+    var banner=document.getElementById('prev-banner');
+    if(d.prev){
+      if(!banner){
+        banner=document.createElement('div');
+        banner.id='prev-banner';
+        banner.style.cssText='font-size:10.5px;color:var(--text2);margin-bottom:.5rem;display:flex;align-items:center;gap:10px;';
+        banner.innerHTML='<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:'+d.color+';display:inline-block;border-radius:2px"></span>금년</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:'+d.color+'88;display:inline-block;border-radius:2px;border-top:1.5px dashed '+d.color+'88"></span>전년 동기</span>';
+        var canvasWrap=document.querySelector('.canvas-wrap');
+        canvasWrap.parentNode.insertBefore(banner,canvasWrap);
+      } else {
+        banner.style.display='flex';
+        banner.innerHTML='<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:'+d.color+';display:inline-block;border-radius:2px"></span>금년</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:18px;height:0;display:inline-block;border-top:2px dashed '+d.color+'88"></span>전년 동기</span>';
+      }
+    } else {
+      if(banner) banner.style.display='none';
+    }
+    mc=new Chart(ctx,{type:'line',data:{labels:months,datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(128,128,128,0.07)'},ticks:{font:{size:9},autoSkip:false,maxRotation:0}},y:{grid:{color:'rgba(128,128,128,0.07)'},ticks:{font:{size:9}}}}}});
+  },10);
+}
+
+async function genInterp(){
+  var d=CD[curKey];
+  var interpEl=document.getElementById('ai-interp');
+  var pulse=document.getElementById('ai-pulse');
+  var btn=document.getElementById('ai-gen-btn');
+  interpEl.textContent='분석 중...'; interpEl.style.color='var(--text2)';
+  pulse.style.display='inline-block'; btn.style.display='none';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:d.prompt}]})});
+    var data=await res.json();
+    var text=data.content.filter(function(c){return c.type==='text';}).map(function(c){return c.text;}).join('');
+    interpEl.textContent=text||'분석 결과를 불러오지 못했습니다.'; interpEl.style.color='var(--text)';
+  }catch(e){interpEl.textContent='현재 분석을 불러올 수 없습니다.';}
+  pulse.style.display='none';
+}
+
+function onCheckChange(chk){
+  var checked=document.querySelectorAll('.ind-chk:checked');
+  if(checked.length>3){
+    chk.checked=false;
+    var lbl=document.querySelector('label[for="'+chk.id+'"]');
+    if(lbl){lbl.style.outline='2px solid #E24B4A'; setTimeout(function(){lbl.style.outline='';},600);}
+  }
+  var cnt=document.querySelectorAll('.ind-chk:checked').length;
+  var counter=document.getElementById('chk-counter');
+  if(counter) counter.textContent=cnt+'/3 선택됨';
+}
+
+async function runCustomInsight(){
+  var selected=[];
+  document.querySelectorAll('.ind-chk:checked').forEach(function(chk){selected.push(chk.value);});
+  if(selected.length<2){alert('2~3개의 지표를 선택해주세요.'); return;}
+  var resultBox=document.getElementById('custom-result');
+  var body=document.getElementById('cir-body');
+  var pulse=document.getElementById('cir-pulse');
+  var runBtn=document.getElementById('custom-run-btn');
+  resultBox.classList.add('show');
+  body.textContent='선택한 지표를 교차 분석 중...';
+  pulse.style.display='inline-block'; runBtn.disabled=true;
+  var listStr=selected.map(function(s,i){return (i+1)+'. '+s;}).join(', ');
+  var prompt='현대백화점 상품본부 지원팀을 위한 분석입니다. 다음 지표들을 교차 분석하여 백화점 소비에 미치는 영향을 구체적으로 설명해주세요: '+listStr+'. 분석 내용: 1) 이 지표들이 함께 나타낼 때의 의미와 상호작용 2) 현대백화점 주요 상품군(명품, 뷰티, 패션, 리빙·가전, 식품, 팝업스토어)에 미치는 구체적 영향 3) 단기적으로 취해야 할 전략적 대응 방향. 3~5문장으로 명확하고 실용적으로 작성해주세요. 한국어로 답변해주세요.';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
+    var data=await res.json();
+    var text=data.content.filter(function(c){return c.type==='text';}).map(function(c){return c.text;}).join('');
+    body.textContent=text||'분석 결과를 불러오지 못했습니다.';
+  }catch(e){body.textContent='현재 분석을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.';}
+  pulse.style.display='none'; runBtn.disabled=false;
+}
+
+function fnews(cat,btn){
+  document.querySelectorAll('.kwbtn').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on');
+  document.querySelectorAll('.news-item').forEach(function(item){item.style.display=(cat==='all'||item.dataset.cat===cat)?'flex':'none';});
+}
+
+function showBriefing(key,btn){
+  document.querySelectorAll('#briefing-tabs .tbtn').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on');
+  document.querySelectorAll('.briefing-panel').forEach(function(p){p.style.display='none';});
+  document.getElementById('briefing-'+key).style.display='block';
+}
+
+var RPT_PROMPTS={
+  hri:'현대경제연구원(hri.co.kr)에서 최근 1~2개월 내 발간된 보고서 중 소비, 유통, 내수 경기, 물가, 환율과 관련된 보고서를 3~5개 찾아서 각각 제목과 핵심 내용을 2~3문장으로 요약해주세요. 현대백화점 담당자 관점에서 백화점 사업과의 연관성도 한 줄 덧붙여주세요. 한국어로 답변해주세요.',
+  seri:'삼성경제연구소(seri.org)에서 최근 1~2개월 내 발간된 보고서 중 소비 트렌드, 유통, 내수 경기, MZ세대, 프리미엄 소비와 관련된 보고서를 3~5개 찾아서 각각 제목과 핵심 내용을 2~3문장으로 요약해주세요. 현대백화점 담당자 관점에서 연관성도 한 줄 덧붙여주세요. 한국어로 답변해주세요.'
+};
+
+async function fetchReports(org){
+  var aiBox=document.getElementById('rpt-'+org+'-ai');
+  var pulse=document.getElementById('rpt-'+org+'-pulse');
+  var textEl=document.getElementById('rpt-'+org+'-text');
+  aiBox.style.display='block'; textEl.textContent='최신 보고서 검색 중...'; textEl.style.color='var(--text2)'; pulse.style.display='inline-block';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:RPT_PROMPTS[org]}]})});
+    var data=await res.json();
+    var text=data.content.filter(function(c){return c.type==='text';}).map(function(c){return c.text;}).join('');
+    textEl.textContent=text||'검색 결과를 불러오지 못했습니다.'; textEl.style.color='var(--text)';
+  }catch(e){textEl.textContent='현재 검색을 불러올 수 없습니다.';}
+  pulse.style.display='none';
+}
+
+function toggleAddForm(org){
+  var form=document.getElementById('rpt-'+org+'-form');
+  form.style.display=form.style.display==='none'?'flex':'none';
+}
+
+function addReport(org){
+  var date=document.getElementById(org+'-input-date').value.trim();
+  var title=document.getElementById(org+'-input-title').value.trim();
+  var summary=document.getElementById(org+'-input-summary').value.trim();
+  var tagsRaw=document.getElementById(org+'-input-tags').value.trim();
+  if(!title){alert('제목을 입력해주세요.'); return;}
+  var tags=tagsRaw?tagsRaw.split(',').map(function(t){return t.trim();}).filter(Boolean):[];
+  var tagHtml=tags.map(function(t){return '<span class="rtag">'+t+'</span>';}).join('');
+  var item=document.createElement('div'); item.className='rpt-item';
+  item.innerHTML='<div class="rpt-date">'+(date||'--')+'</div><div class="rpt-body"><div class="rpt-title">'+title+'</div>'+(summary?'<div class="rpt-summary">'+summary+'</div>':'')+'<div class="rpt-tags-row">'+tagHtml+'</div></div>';
+  var list=document.getElementById('rpt-'+org+'-list');
+  list.insertBefore(item,list.firstChild);
+  ['date','title','summary','tags'].forEach(function(f){document.getElementById(org+'-input-'+f).value='';});
+  toggleAddForm(org);
+}
+
+/* ══════════════════════════════════════════
+   ECOS API 연동
+   ══════════════════════════════════════════ */
+var ECOS_KEY = 'SUMYLXA0YAQ1FNS9I8GL';
+var ECOS_BASE_M = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/14/';
+var ECOS_BASE_D = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/400/';
+
+// 지표별 ECOS StatisticSearch 파라미터 매핑
+// format: {stat, item, item2(optional), cycle}
 var ECOS_MAP = {
   csi:        {stat:'511Y002', item:'FME',      item2:'99988',  cycle:'M'},
   rate:       {stat:'722Y001', item:'0101000',  item2:null,     cycle:'M'},
@@ -530,13 +684,8 @@ var ECOS_MAP = {
   employ:     {stat:'901Y027', item:'I61E',     item2:'I28A',   cycle:'M'},
   service:    {stat:'901Y038', item:'I51A',     item2:'2',      cycle:'M'},
   kospi:      {stat:'802Y001', item:'0001000',  item2:null,     cycle:'D'},
-  houseprice: {stat:'901Y062', item:'P63A',     item2:null,     cycle:'M'},
-  income:     {stat:'901Y117', item:'1',        item2:'I36D',   item3:'I36A', cycle:'Q'}
+  houseprice: {stat:'901Y062', item:'P63A',     item2:null,     cycle:'M'}
 };
-
-var ECOS_KEY = 'SUMYLXA0YAQ1FNS9I8GL';
-var ECOS_BASE_M = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/14/';
-var ECOS_BASE_D = 'https://ecos.bok.or.kr/api/StatisticSearch/'+ECOS_KEY+'/json/kr/1/400/';
 
 // 날짜 헬퍼: YYYYMM 형식으로 n개월 전/후
 function addMonths(yyyymm, n) {
@@ -570,17 +719,8 @@ async function fetchEcosTimeSeries(key) {
     endYM = nowYM();
     startYM = addMonths(endYM, -13);
   }
-  // 분기별 날짜 형식
-  if(cfg.cycle === 'Q') {
-    var now = new Date();
-    var yr = now.getFullYear(), q = Math.ceil((now.getMonth()+1)/3);
-    endYM = yr + 'Q' + q;
-    var startYr = yr - 2;
-    startYM = startYr + 'Q1';
-  }
   var ecosUrl = (cfg.cycle==='D'?ECOS_BASE_D:ECOS_BASE_M) + cfg.stat + '/' + cfg.cycle + '/' + startYM + '/' + endYM + '/' + cfg.item;
   if(cfg.item2) ecosUrl += '/' + cfg.item2;
-  if(cfg.item3) ecosUrl += '/' + cfg.item3;
 
   // CORS 프록시 경유 (corsproxy.io)
   var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(ecosUrl);
@@ -601,15 +741,6 @@ async function fetchEcosTimeSeries(key) {
 // 레이블 생성: "25.03" 형식
 function makeLabels(rows) {
   return rows.map(function(r){
-    if(r.ym.length === 8) {
-      // 일별: YYYYMMDD → MM/DD
-      return r.ym.substring(4,6)+'/'+r.ym.substring(6,8);
-    }
-    if(r.ym.indexOf('Q') >= 0) {
-      // 분기별: 2024Q1 → 24.Q1
-      return r.ym.substring(2,4)+'.'+r.ym.substring(4);
-    }
-    // 월별: YYYYMM → YY.MM
     return r.ym.substring(2,4)+'.'+r.ym.substring(4,6);
   });
 }
@@ -658,10 +789,7 @@ async function loadEcosChart(key) {
   document.getElementById('snote').textContent = d.note;
   document.getElementById('synote').textContent = d.yn;
 
-  // 전년 데이터 fetch
-  var prevRowsE = await fetchPrevYearTimeSeries(k, false);
-  var prevValsE = prevRowsE ? prevRowsE.map(function(r){return r.val;}) : null;
-  renderChart(vals, prevValsE, labels, d);
+  renderChart(vals, null, labels, d);
 }
 
 function makeMonthLabels() {
@@ -696,133 +824,6 @@ function updateKPI(vals, d) {
 }
 
 // selChart 오버라이드: ECOS 연동 지표면 API, 아니면 샘플
-async function fetchKosisTimeSeries(key) {
-  var cfg = KOSIS_MAP[key];
-  if(!cfg) return null;
-  var url = KOSIS_BASE + KOSIS_KEY + '&orgId=' + cfg.orgId + '&tblId=' + cfg.tblId + '&itmId=' + cfg.itmId + '&objL1=' + (cfg.objL1||'') + '&objL2=' + (cfg.objL2||'') + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
-  try {
-    var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-    var res = await fetch(proxyUrl);
-    var rows = await res.json();
-    if(!Array.isArray(rows) || rows.length === 0) return null;
-    // 필터링
-    var f = cfg.filter;
-    var filtered = rows.filter(function(r){
-      return Object.keys(f).every(function(k){ return r[k] === f[k]; });
-    });
-    // 날짜순 정렬
-    filtered.sort(function(a,b){ return a.PRD_DE.localeCompare(b.PRD_DE); });
-    // 최근 13개월
-    var recent = filtered.slice(-13);
-    return recent.map(function(r){ return {ym: r.PRD_DE, val: parseFloat(r.DT)}; });
-  } catch(e) { return null; }
-}
-
-// 전년 동기 데이터 fetch (같은 API에서 1년 더 앞 데이터)
-async function fetchPrevYearTimeSeries(key, isKosis) {
-  // ECOS: 시작을 13개월 더 앞으로
-  // KOSIS: newEstPrdCnt=26으로 26개월 가져와서 앞 13개 사용
-  if(isKosis) {
-    var cfg = KOSIS_MAP[key];
-    if(!cfg) return null;
-    var url = KOSIS_BASE.replace('newEstPrdCnt=26', 'newEstPrdCnt=26') + KOSIS_KEY + '&orgId=' + cfg.orgId + '&tblId=' + cfg.tblId + '&itmId=' + cfg.itmId + '&objL1=' + (cfg.objL1||'') + '&objL2=' + (cfg.objL2||'') + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
-    try {
-      var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-      var res = await fetch(proxyUrl);
-      var rows = await res.json();
-      if(!Array.isArray(rows) || rows.length === 0) return null;
-      var f = cfg.filter;
-      var filtered = rows.filter(function(r){
-        return Object.keys(f).every(function(k){ return r[k] === f[k]; });
-      });
-      filtered.sort(function(a,b){ return a.PRD_DE.localeCompare(b.PRD_DE); });
-      // 26개 중 앞 13개가 전년
-      var prev = filtered.slice(0, 13);
-      return prev.map(function(r){ return {ym: r.PRD_DE, val: parseFloat(r.DT)}; });
-    } catch(e) { return null; }
-  } else {
-    // ECOS: 13개월 더 앞으로
-    var cfg2 = ECOS_MAP[key];
-    if(!cfg2) return null;
-    var endYM2, startYM2;
-    if(cfg2.cycle === 'D') {
-      var now = new Date(); now.setFullYear(now.getFullYear()-1);
-      var yr = now.getFullYear(), mo = now.getMonth(), dy = now.getDate();
-      endYM2 = yr.toString()+(mo<9?'0':'')+(mo+1).toString()+(dy<10?'0':'')+dy.toString();
-      var past = new Date(now); past.setFullYear(past.getFullYear()-1);
-      var py=past.getFullYear(),pm=past.getMonth(),pd=past.getDate();
-      startYM2 = py.toString()+(pm<9?'0':'')+(pm+1).toString()+(pd<10?'0':'')+pd.toString();
-    } else if(cfg2.cycle === 'Q') {
-      var now2 = new Date();
-      var yr2=now2.getFullYear()-1, q2=Math.ceil((now2.getMonth()+1)/3);
-      endYM2 = yr2+'Q'+q2;
-      startYM2 = (yr2-2)+'Q1';
-    } else {
-      endYM2 = addMonths(nowYM(), -13);
-      startYM2 = addMonths(endYM2, -13);
-    }
-    var base2 = (cfg2.cycle==='D'?ECOS_BASE_D:ECOS_BASE_M)+cfg2.stat+'/'+cfg2.cycle+'/'+startYM2+'/'+endYM2+'/'+cfg2.item;
-    if(cfg2.item2) base2 += '/'+cfg2.item2;
-    if(cfg2.item3) base2 += '/'+cfg2.item3;
-    try {
-      var proxyUrl2 = 'https://corsproxy.io/?'+encodeURIComponent(base2);
-      var res2 = await fetch(proxyUrl2);
-      var outer2 = await res2.json();
-      var rows2 = (outer2.StatisticSearch||{}).row||[];
-      if(rows2.length===0) return null;
-      return rows2.map(function(r){ return {ym:r.TIME, val:parseFloat(r.DATA_VALUE)}; });
-    } catch(e) { return null; }
-  }
-}
-
-async function loadKosisChart(key) {
-  var d = CD[key]; if(!d) return;
-  document.getElementById('ctitle').textContent = d.title;
-  document.getElementById('cmeta').textContent = '🔄 실시간 데이터 불러오는 중...';
-  document.getElementById('scur').textContent = '...';
-  document.getElementById('savg').textContent = '...';
-  document.getElementById('syoy').textContent = '...';
-
-  var rows = await fetchKosisTimeSeries(key);
-  var prevRows = await fetchPrevYearTimeSeries(key, true);
-
-  if(!rows || rows.length === 0) {
-    document.getElementById('cmeta').textContent = d.meta + ' (데이터 없음)';
-    return;
-  }
-
-  var vals = rows.map(function(r){return r.val;});
-  var prevVals = prevRows ? prevRows.map(function(r){return r.val;}) : null;
-  var labels = makeLabels(rows);
-  var latest = vals[vals.length-1];
-  var prev = vals[vals.length-2]||latest;
-  var avg6 = vals.slice(-6).reduce(function(a,b){return a+b;},0)/Math.min(6,vals.length);
-  var diff = (latest-prev).toFixed(1);
-  var chgTxt = (diff>0?'▲ ':diff<0?'▼ ':'= ')+Math.abs(diff);
-  var chgCls = diff>0?'up':diff<0?'down':'neu';
-  var yoyDiff = prevVals ? (latest-(prevVals[prevVals.length-1]||latest)).toFixed(1) : '-';
-
-  // 온라인쇼핑은 억원 단위로 변환
-  var displayLatest = latest;
-  if(key === 'online') { displayLatest = Math.round(latest/10000)+'조'; }
-  else if(key === 'birth' || key === 'death' || key === 'marriage' || key === 'divorce') {
-    displayLatest = latest.toLocaleString()+(d.unit||'');
-  } else {
-    displayLatest = latest+(d.unit||'');
-  }
-
-  document.getElementById('ctitle').textContent = d.title;
-  document.getElementById('cmeta').textContent = d.meta + ' (실시간 KOSIS)';
-  document.getElementById('scur').textContent = displayLatest;
-  document.getElementById('savg').textContent = avg6.toFixed(1)+(key==='online'?'':'');
-  document.getElementById('syoy').textContent = (yoyDiff>0?'+':'')+yoyDiff;
-  var schg=document.getElementById('schg'); schg.textContent=chgTxt; schg.className='kc '+chgCls;
-  document.getElementById('snote').textContent = d.note;
-  document.getElementById('synote').textContent = d.yn;
-
-  renderChart(vals, prevVals, labels, d);
-}
-
 async function selChartWithAPI(k, btn, grpId) {
   curKey = k;
   document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('on');});
@@ -845,19 +846,19 @@ async function selChartWithAPI(k, btn, grpId) {
   var d = CD[k]; if(!d) return;
 
   if(ECOS_MAP[k]) {
+    // 실시간 API 연동
     await loadEcosChart(k);
-  } else if(KOSIS_MAP[k]) {
-    await loadKosisChart(k);
   } else {
+    // 샘플 데이터
     document.getElementById('ctitle').textContent = d.title;
     document.getElementById('cmeta').textContent = d.meta + ' (샘플 데이터)';
-    document.getElementById('scur').textContent = d.cur||'-';
-    document.getElementById('savg').textContent = d.avg||'-';
-    document.getElementById('syoy').textContent = d.yoy||'-';
-    var schg = document.getElementById('schg'); schg.textContent = d.chg||'-'; schg.className = 'kc '+(d.cc||'neu');
-    document.getElementById('snote').textContent = d.note||'';
-    document.getElementById('synote').textContent = d.yn||'';
-    renderChart(d.data||[], d.prev||null, makeMonthLabels(), d);
+    document.getElementById('scur').textContent = d.cur;
+    document.getElementById('savg').textContent = d.avg;
+    document.getElementById('syoy').textContent = d.yoy;
+    var schg = document.getElementById('schg'); schg.textContent = d.chg; schg.className = 'kc '+d.cc;
+    document.getElementById('snote').textContent = d.note;
+    document.getElementById('synote').textContent = d.yn;
+    renderChart(d.data, d.prev||null, makeMonthLabels(), d);
   }
 }
 
