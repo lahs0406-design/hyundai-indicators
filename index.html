@@ -1088,7 +1088,7 @@ function updateKPI(d) {
    JS § 11. ECOS API fetch
    · fetchEcosTimeSeries(key): 최근 시계열
    · fetchPrevEcos(key): 전년 동기 시계열
-   · CORS 프록시(corsproxy.io) 경유
+   · CORS 프록시: ECOS=corsproxy.io / KOSIS=allorigins.win
    ═══════════════════════════════════════════ */
 async function fetchEcosTimeSeries(key) {
   var cfg = ECOS_MAP[key];
@@ -1170,7 +1170,7 @@ async function _kosisOneFetch(cfg, sliceFn) {
     + '&objL2='  + (cfg.objL2 || '')
     + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    var res  = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
     var rows = await res.json();
     if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
@@ -1283,7 +1283,7 @@ async function fetchKosisAnnual(key) {
     + '&objL2=' + (cfg.objL2 || '')
     + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    var res  = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
     var rows = await res.json();
     if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
