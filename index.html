@@ -268,7 +268,7 @@ footer{padding:1.25rem;text-align:center;font-size:11px;color:var(--text3);borde
   <div class="sub-panel" id="grp3"><button class="sub-btn" onclick="selChart('cpi',this,'grp3')">소비자물가</button><button class="sub-btn" onclick="selChart('rate',this,'grp3')">기준금리</button></div>
   <div class="sub-panel" id="grp4"><button class="sub-btn" onclick="selChart('kospi',this,'grp4')">KOSPI</button><button class="sub-btn" onclick="selChart('houseprice',this,'grp4')">주택매매가격</button><button class="sub-btn" onclick="selChart('housetrade',this,'grp4')">주택거래량</button><button class="sub-btn" onclick="selChart('fx',this,'grp4')">환율</button></div>
   <div class="sub-panel" id="grp5"><button class="sub-btn" onclick="selChart('dept',this,'grp5')">백화점매출(전년비)</button><button class="sub-btn" onclick="selChart('mart',this,'grp5')">대형마트매출</button><button class="sub-btn" onclick="selChart('convenience',this,'grp5')">편의점매출</button><button class="sub-btn" onclick="selChart('online',this,'grp5')">온라인쇼핑</button><button class="sub-btn" onclick="selChart('retail',this,'grp5')">소매판매지수</button><button class="sub-btn" onclick="selChart('service',this,'grp5')">서비스업생산</button><button class="sub-btn" onclick="selChart('tourist',this,'grp5')">방한외국인</button><button class="sub-btn" onclick="selChart('outbound',this,'grp5')">내국인출국</button></div>
-  <div class="sub-panel" id="grp6"><button class="sub-btn" onclick="selChart('birthrate',this,'grp6')">출생아수</button><button class="sub-btn" onclick="selChart('marriagerate',this,'grp6')">혼인건수</button></div>
+  <div class="sub-panel" id="grp6"><button class="sub-btn" onclick="selChart('birthrate',this,'grp6')">합계출산율(TFR)</button><button class="sub-btn" onclick="selChart('marriagerate',this,'grp6')">조혼인율</button></div>
   <!-- § 3-3. 차트 + KPI 수치 -->
   <div class="sidebar-chart">
     <div class="chart-name" id="ctitle">소비자심리지수 (CCSI)</div>
@@ -760,24 +760,28 @@ var CD = {
     note:'전국 월별 내국인 출국 총계',yn:'국내 소비 유출 모니터링 지표',
     prompt:'내국인 출국자 수 추세와 국내 백화점 소비 유출 가능성, 출국 증가가 오프라인 유통채널에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'
   },
-  /* ── 인구동향: 출생율·혼인율(비율)로 변경, 사망/이혼 제거 ── */
+  /* ── 인구동향: 합계출산율(TFR) + 조혼인율 (연간, KOSIS_ANNUAL_MAP 경유) ── */
   birthrate:{
-    unit:'명', title:'출생아수 (명, 인구 1,000명당 출생률 추이)',
-    indexNote:'통계청 월별 출생아 수입니다. 장기적으로 유아동·키즈 카테고리 수요의 선행지표이며, 합계출산율 하락 추세와 함께 해당 카테고리 시장 축소를 시사합니다.',
-    meta:'출처: 통계청 인구동향조사 · 월별 발표',
-    data:[19842,18234,21053,20187,22341,21856,20943,19782,21034,20218,19456,20123],
-    color:'#3B9CE8',cur:'20,123명',avg:'20,422명',yoy:'-1,719명',chg:'▼ -762명',cc:'down',
-    note:'출생 감소 추세',yn:'유아동 카테고리 수요 선행지표',
-    prompt:'출생아수 추세와 유아동 카테고리 수요에 미치는 중장기적 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'
+    unit:'명', title:'합계출산율 (TFR)',
+    indexNote:'여성 1명이 평생 낳을 것으로 예상되는 평균 출생아 수입니다. OECD 기준 인구 유지 수준은 2.1명이며, 한국은 2023년 기준 0.72명으로 역대 최저를 기록했습니다. 유아동·키즈 카테고리 중장기 수요를 전망하는 핵심 선행지표입니다.',
+    meta:'출처: 통계청 인구동향조사 · 연간 발표 · 단위: 명/가임여성 1명당',
+    /* 샘플: 2013~2024년 연간 TFR */
+    data:[1.19,1.21,1.24,1.17,1.05,0.98,0.92,0.84,0.81,0.78,0.72,0.75],
+    color:'#3B9CE8',
+    cur:'0.75명',avg:'0.96명',yoy:'+0.03명',chg:'▲ +0.03명',cc:'up',
+    note:'역대 최저권',yn:'유아동 카테고리 수요 선행지표',
+    prompt:'합계출산율(TFR)이 0.75명 수준으로 역대 최저권입니다. 저출산 추세가 현대백화점 유아동·키즈 카테고리 및 중장기 소비시장에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'
   },
   marriagerate:{
-    unit:'건', title:'혼인건수 (건, 인구 1,000명당 혼인율 추이)',
-    indexNote:'통계청 월별 혼인 건수입니다. 혼인 증가는 예물(워치·주얼리), 혼수(리빙·가전) 수요의 직접 선행지표이며, 신혼부부 소비 여력 변화를 반영합니다.',
-    meta:'출처: 통계청 인구동향조사 · 월별 발표',
-    data:[14523,13218,15842,16234,17543,18921,17832,16543,15234,14821,13942,15234],
-    color:'#E8A03B',cur:'15,234건',avg:'15,824건',yoy:'+711건',chg:'▲ +1,292건',cc:'up',
-    note:'혼인 회복 조짐',yn:'예물·혼수 수요 선행지표',
-    prompt:'혼인건수 추세와 워치·주얼리, 리빙 카테고리 수요에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'
+    unit:'건', title:'조혼인율 (인구 1천명당)',
+    indexNote:'1년간 총 혼인건수를 해당 연도 연앙인구로 나눈 뒤 1,000을 곱한 값입니다. 혼인율 상승은 예물(워치·주얼리), 혼수(리빙·가전·침구류) 수요의 직접 선행지표이며, 신혼부부 소비 여력 변화를 반영합니다.',
+    meta:'출처: 통계청 인구동향조사 · 연간 발표 · 단위: 건/인구 1천명당',
+    /* 샘플: 2013~2024년 연간 조혼인율 */
+    data:[6.4,6.0,5.9,5.5,5.2,5.0,4.7,4.2,3.8,3.7,3.8,4.0],
+    color:'#E8A03B',
+    cur:'4.0건',avg:'4.9건',yoy:'+0.2건',chg:'▲ +0.2건',cc:'up',
+    note:'혼인 회복 조짐',yn:'예물·리빙·가전 수요 선행지표',
+    prompt:'조혼인율이 최근 소폭 반등하는 추세입니다. 혼인율 변화가 현대백화점 워치·주얼리, 리빙, 가전 카테고리 수요에 미치는 영향을 3~4문장으로 해석해주세요. 한국어로 답변해주세요.'
   }
 };
 
@@ -807,40 +811,55 @@ var ECOS_MAP = {
    · KOSIS 연동 지표 추가 시 여기에 등록
    ═══════════════════════════════════════════ */
 var KOSIS_MAP = {
-  /* ── 유통채널 (산업통상자원부 주요 유통업체 매출 동향) ──
-     orgId=115, 전년동월비(T002) 기준
-     ※ 편의점은 DT_115023_300이 없을 수 있어 DT_115023_200 같은 테이블 내 코드 분리 */
-  dept:        {orgId:'115', tblId:'DT_115023_200', itmId:'T002+', objL1:'0013+',
+  /* ── 유통채널 ──────────────────────────────────────────────────────
+     산업통상자원부 주요유통업체 매출동향조사 (승인번호 115023호)
+     tblId: DT_11523_NNN (DT_115023_NNN 아님 — 숫자 0 하나 없음)
+     전년동월비 항목코드: T002, 업태코드: 대형마트 0011, 백화점 0013, 편의점 0014 */
+  dept:        {orgId:'115', tblId:'DT_11523_200', itmId:'T002+', objL1:'0013+',
                 filter:{C1:'0013', ITM_ID:'T002'}},
-  mart:        {orgId:'115', tblId:'DT_115023_100', itmId:'T002+', objL1:'0011+',
+  mart:        {orgId:'115', tblId:'DT_11523_100', itmId:'T002+', objL1:'0011+',
                 filter:{C1:'0011', ITM_ID:'T002'}},
-  convenience: {orgId:'115', tblId:'DT_115023_300', itmId:'T002+', objL1:'0014+',
+  convenience: {orgId:'115', tblId:'DT_11523_300', itmId:'T002+', objL1:'0014+',
                 filter:{C1:'0014', ITM_ID:'T002'}},
-  /* ── 온라인쇼핑 (통계청 온라인쇼핑동향조사) ── */
+  /* ── 온라인쇼핑 (통계청 온라인쇼핑동향조사) ────────────────────── */
   online:      {orgId:'101', tblId:'DT_1KE10051', itmId:'T20+', objL1:'000+', objL2:'00+',
                 filter:{C1:'000', C2:'00', ITM_ID:'T20'}},
-  /* ── 주택거래량 (국토교통부 주택매매거래량) ── */
-  housetrade:  {orgId:'116', tblId:'DT_MLTM_2400205', itmId:'T10+', objL1:'00+',
+  /* ── 주택거래량 (국토교통부) ────────────────────────────────────── */
+  housetrade:  {orgId:'116', tblId:'DT_MLTM_2006_S0001', itmId:'T10+', objL1:'00+',
                 filter:{C1:'00', ITM_ID:'T10'},
-                fallback:{orgId:'408', tblId:'DT_408_2006_S0051',
-                          itmId:'13103114435T1+', objL1:'13102114435A.0001+',
-                          filter:{C1:'13102114435A.0001', ITM_ID:'13103114435T1'}}},
-  /* ── 관광 (한국관광공사) ── */
-  tourist:     {orgId:'551', tblId:'DT_551_KTO_002', itmId:'T1+', objL1:'ALL+',
-                filter:{ITM_ID:'T1'},
-                fallback:{orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH',
-                          itmId:'13103314423T01+', objL1:'13102314423A.1+',
-                          filter:{C1:'13102314423A.1', ITM_ID:'13103314423T01'}}},
-  outbound:    {orgId:'551', tblId:'DT_551_KTO_001', itmId:'T1+', objL1:'ALL+',
-                filter:{ITM_ID:'T1'},
-                fallback:{orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH',
-                          itmId:'13103836116T01+', objL1:'13102836116A.01+',
-                          filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'}}},
-  /* ── 인구동향 (통계청 인구동향조사) ── */
-  birthrate:   {orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'10+',
-                filter:{C1:'00', C2:'10', ITM_ID:'T1'}},
-  marriagerate:{orgId:'101', tblId:'DT_1B8000G', itmId:'T1+', objL1:'00+', objL2:'20+',
-                filter:{C1:'00', C2:'20', ITM_ID:'T1'}}
+                fallback:{orgId:'116', tblId:'DT_MLTM_2400205', itmId:'T10+', objL1:'00+',
+                          filter:{C1:'00', ITM_ID:'T10'}}},
+  /* ── 관광 (한국관광공사 KOSIS 수록분) ──────────────────────────── */
+  tourist:     {orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH',
+                itmId:'13103314423T01+', objL1:'13102314423A.1+',
+                filter:{C1:'13102314423A.1', ITM_ID:'13103314423T01'},
+                fallback:{orgId:'551', tblId:'DT_551_KTO_002', itmId:'T1+', objL1:'ALL+',
+                          filter:{ITM_ID:'T1'}}},
+  outbound:    {orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH',
+                itmId:'13103836116T01+', objL1:'13102836116A.01+',
+                filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'},
+                fallback:{orgId:'551', tblId:'DT_551_KTO_001', itmId:'T1+', objL1:'ALL+',
+                          filter:{ITM_ID:'T1'}}},
+};
+
+/* ═══════════════════════════════════════════
+   JS § 4-1. KOSIS 연간 지표 매핑 (KOSIS_ANNUAL_MAP)
+   · prdSe=Y (연간) 으로만 제공되는 지표
+   · 합계출산율(TFR): DT_1B8000F, 항목 T20 (전국)
+   · 조혼인율: DT_1B8000G, 항목 T5 (혼인건수 기반 연간율)
+   · selChart에서 KOSIS_ANNUAL_MAP 체크 후 loadKosisAnnualChart 호출
+   ═══════════════════════════════════════════ */
+var KOSIS_ANNUAL_MAP = {
+  /* ── 합계출산율 (TFR) ── */
+  birthrate: {
+    orgId:'101', tblId:'DT_1B8000F', itmId:'T20+', objL1:'00+',
+    filter:{C1:'00', ITM_ID:'T20'}
+  },
+  /* ── 조혼인율 (인구 1천명당) ── */
+  marriagerate: {
+    orgId:'101', tblId:'DT_1B8000G', itmId:'T5+', objL1:'00+', objL2:'20+',
+    filter:{C1:'00', C2:'20', ITM_ID:'T5'}
+  }
 };
 
 /* ═══════════════════════════════════════════
@@ -1239,6 +1258,121 @@ async function loadEcosChart(key) {
 }
 
 /* ═══════════════════════════════════════════
+   JS § 13-1. KOSIS 연간 데이터 fetch + 차트 로드
+   · 합계출산율(TFR) / 조혼인율 등 prdSe=Y 전용
+   · 연간 레이블: "2020", "2021" ... 형식으로 표시
+   · 차트: 막대(bar) 형태로 연도별 추이 강조
+   ═══════════════════════════════════════════ */
+async function fetchKosisAnnual(key) {
+  var cfg = KOSIS_ANNUAL_MAP[key];
+  if(!cfg) return null;
+  var url = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
+    + '?method=getList&format=json&jsonVD=Y'
+    + '&prdSe=Y&newEstPrdCnt=13&prdInterval=1'
+    + '&apiKey=' + KOSIS_KEY
+    + '&orgId=' + cfg.orgId
+    + '&tblId=' + cfg.tblId
+    + '&itmId=' + cfg.itmId
+    + '&objL1=' + (cfg.objL1 || '')
+    + '&objL2=' + (cfg.objL2 || '')
+    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+  try {
+    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    var rows = await res.json();
+    if(!Array.isArray(rows) || rows.length === 0) return null;
+    var f = cfg.filter;
+    var filtered = rows.filter(function(r){
+      return Object.keys(f).every(function(k){ return r[k] === f[k]; });
+    });
+    if(filtered.length === 0) return null;
+    filtered.sort(function(a,b){ return a.PRD_DE.localeCompare(b.PRD_DE); });
+    return filtered.slice(-13).map(function(r){
+      return {ym: r.PRD_DE, val: parseFloat(r.DT)};
+    });
+  } catch(e) { return null; }
+}
+
+async function loadKosisAnnualChart(key) {
+  var d = CD[key]; if(!d) return;
+  document.getElementById('ctitle').textContent = d.title;
+  setMetaLoading();
+  document.getElementById('scur').textContent = '...';
+  document.getElementById('savg').textContent = '...';
+  document.getElementById('syoy').textContent = '...';
+
+  var rows = await fetchKosisAnnual(key);
+
+  if(!rows || rows.length === 0) {
+    /* API 실패 → 샘플 데이터 fallback */
+    setMetaSample(d);
+    updateKPI(d);
+    /* 샘플 데이터로 연간 차트 렌더 */
+    var sampleYears = [];
+    var startY = new Date().getFullYear() - (d.data.length - 1);
+    for(var i = 0; i < d.data.length; i++) sampleYears.push(String(startY + i));
+    renderAnnualChart(d.data, sampleYears, d);
+    return;
+  }
+
+  var vals   = rows.map(function(r){ return r.val; });
+  var labels = rows.map(function(r){ return r.ym; }); /* "2023" 형식 */
+  var latest = vals[vals.length - 1];
+  var prev   = vals[vals.length - 2] || latest;
+  var avg6   = vals.slice(-6).reduce(function(a,b){ return a+b; }, 0) / Math.min(6, vals.length);
+  var diff   = latest - prev;
+  var yoyDiff = vals.length >= 2 ? (latest - vals[vals.length - 2]) : null;
+
+  setMetaLive(d, 'KOSIS');
+  document.getElementById('ctitle').textContent = d.title;
+  document.getElementById('scur').textContent   = fmtVal(latest, d.unit);
+  document.getElementById('savg').textContent   = fmtVal(avg6,   d.unit);
+  document.getElementById('syoy').textContent   = yoyDiff !== null ? fmtVal(yoyDiff, d.unit, true) : '-';
+  var schg = document.getElementById('schg');
+  schg.textContent = fmtDiff(diff, d.unit);
+  schg.className   = 'kc ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : 'neu');
+  document.getElementById('snote').textContent  = d.note;
+  document.getElementById('synote').textContent = d.yn;
+
+  renderAnnualChart(vals, labels, d);
+}
+
+/* 연간 데이터 전용 차트: 막대(bar) + 선 혼합 */
+function renderAnnualChart(vals, labels, d) {
+  if(mc){ mc.destroy(); mc = null; }
+  setTimeout(function(){
+    var ctx = document.getElementById('mc').getContext('2d');
+    mc = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '연간',
+          data: vals,
+          backgroundColor: d.color + 'BB',
+          borderColor:     d.color,
+          borderWidth: 1.5,
+          borderRadius: 3
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            grid: { color: 'rgba(128,128,128,0.07)' },
+            ticks: { font: { size: 9 }, maxRotation: 0 }
+          },
+          y: {
+            grid: { color: 'rgba(128,128,128,0.07)' },
+            ticks: { font: { size: 9 } }
+          }
+        }
+      }
+    });
+  }, 10);
+}
+
+/* ═══════════════════════════════════════════
    JS § 14. KOSIS 차트 로드 (loadKosisChart)
    · API 성공 → 실시간 데이터로 KPI + 차트 갱신
    · API 실패 → 샘플 데이터 fallback
@@ -1354,6 +1488,9 @@ async function selChartWithAPI(key, btn, grpId) {
 
   if(ECOS_MAP[key]) {
     await loadEcosChart(key);
+  } else if(KOSIS_ANNUAL_MAP[key]) {
+    /* 연간 전용 지표: 합계출산율, 조혼인율 */
+    await loadKosisAnnualChart(key);
   } else if(KOSIS_MAP[key]) {
     await loadKosisChart(key);
   } else {
