@@ -1181,6 +1181,7 @@ function _kosisJsonp(cfg, prdSe, newEstPrdCnt) {
 
     var url = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
       + '?method=getList&format=jsonp&jsonVD=Y&callback=' + cbName
+      + '&outputFields=ORG_ID+TBL_ID+ITM_ID+ITM_NM+PRD_DE+DT+C1+C2'
       + '&prdSe=' + (prdSe || 'M')
       + '&newEstPrdCnt=' + (newEstPrdCnt || 26)
       + '&prdInterval=1'
