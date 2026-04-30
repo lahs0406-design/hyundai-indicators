@@ -582,7 +582,8 @@ var ECOS_KEY    = 'SUMYLXA0YAQ1FNS9I8GL';
 var KOSIS_KEY   = 'MmMwYTNiZWQ5MTJhZmM5MzI3Yzk4N2ZhYTg1N2VhZmQ=';
 var ECOS_BASE_M = 'https://ecos.bok.or.kr/api/StatisticSearch/' + ECOS_KEY + '/json/kr/1/14/';
 var ECOS_BASE_D = 'https://ecos.bok.or.kr/api/StatisticSearch/' + ECOS_KEY + '/json/kr/1/400/';
-var KOSIS_BASE  = 'http://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=26&prdInterval=1&apiKey=';
+var KOSIS_BASE  = 'https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&format=json&jsonVD=Y&outputFields=ITM_ID+PRD_DE+DT&prdInterval=1&apiKey=';
+var KOSIS_PROXY = 'https://nameless-block-94fb.lahs0406.workers.dev';
 
 var mc = null;
 var curKey = 'csi';
@@ -1150,52 +1151,28 @@ async function fetchPrevEcos(key) {
    · fetchKosisTimeSeries(key): 최근 13개월
    · fetchPrevKosis(key): 전년 동기 13개월
    ═══════════════════════════════════════════ */
-/* ─── KOSIS JSONP fetch (프록시 불필요, CORS 우회) ─────── */
-function _kosisJsonp(cfg, prdSe, newEstPrdCnt) {
-  return new Promise(function(resolve) {
-    var cbName = 'kosis_cb_' + Date.now() + '_' + Math.floor(Math.random()*10000);
-    var timer = setTimeout(function() {
-      delete window[cbName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-      resolve(null);
-    }, 10000);
-
-    window[cbName] = function(data) {
-      clearTimeout(timer);
-      delete window[cbName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-      resolve(Array.isArray(data) ? data : null);
-    };
-
-    var url = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
-      + '?method=getList&format=jsonp&jsonVD=Y&callback=' + cbName
-      + '&outputFields=ORG_ID+TBL_ID+ITM_ID+ITM_NM+PRD_DE+DT+C1+C2'
-      + '&prdSe=' + (prdSe || 'M')
-      + '&newEstPrdCnt=' + (newEstPrdCnt || 26)
-      + '&prdInterval=1'
-      + '&apiKey=' + KOSIS_KEY
-      + '&orgId='  + cfg.orgId
-      + '&tblId='  + cfg.tblId
-      + '&itmId='  + cfg.itmId
-      + '&objL1='  + (cfg.objL1 || '')
-      + '&objL2='  + (cfg.objL2 || '')
-      + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
-
-    var script = document.createElement('script');
-    script.src = url;
-    script.onerror = function() {
-      clearTimeout(timer);
-      delete window[cbName];
-      resolve(null);
-    };
-    document.head.appendChild(script);
-  });
-}
-
+/* ─── KOSIS fetch (Cloudflare Worker 프록시 경유) ────────── */
 async function _kosisOneFetch(cfg, sliceFn, prdSe, newEstPrdCnt) {
+  var kosisUrl = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
+    + '?method=getList&format=json&jsonVD=Y'
+    + '&outputFields=ITM_ID+PRD_DE+DT'
+    + '&prdSe='  + (prdSe || 'M')
+    + '&newEstPrdCnt=' + (newEstPrdCnt || 26)
+    + '&prdInterval=1'
+    + '&apiKey=' + KOSIS_KEY
+    + '&orgId='  + cfg.orgId
+    + '&tblId='  + cfg.tblId
+    + '&itmId='  + cfg.itmId
+    + '&objL1='  + (cfg.objL1 || '')
+    + '&objL2='  + (cfg.objL2 || '')
+    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+
+  var proxyUrl = KOSIS_PROXY + '?url=' + encodeURIComponent(kosisUrl);
+
   try {
-    var rows = await _kosisJsonp(cfg, prdSe, newEstPrdCnt);
-    if(!rows || rows.length === 0) return null;
+    var res  = await fetch(proxyUrl);
+    var rows = await res.json();
+    if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
     var filtered = rows.filter(function(r){
       return Object.keys(f).every(function(k){ return r[k] === f[k]; });
@@ -1295,9 +1272,25 @@ async function loadEcosChart(key) {
 async function fetchKosisAnnual(key) {
   var cfg = KOSIS_ANNUAL_MAP[key];
   if(!cfg) return null;
+
+  var kosisUrl = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
+    + '?method=getList&format=json&jsonVD=Y'
+    + '&outputFields=ITM_ID+PRD_DE+DT'
+    + '&prdSe=Y&newEstPrdCnt=13&prdInterval=1'
+    + '&apiKey=' + KOSIS_KEY
+    + '&orgId='  + cfg.orgId
+    + '&tblId='  + cfg.tblId
+    + '&itmId='  + cfg.itmId
+    + '&objL1='  + (cfg.objL1 || '')
+    + '&objL2='  + (cfg.objL2 || '')
+    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+
+  var proxyUrl = KOSIS_PROXY + '?url=' + encodeURIComponent(kosisUrl);
+
   try {
-    var rows = await _kosisJsonp(cfg, 'Y', 13);
-    if(!rows || rows.length === 0) return null;
+    var res  = await fetch(proxyUrl);
+    var rows = await res.json();
+    if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
     var filtered = rows.filter(function(r){
       return Object.keys(f).every(function(k){ return r[k] === f[k]; });
