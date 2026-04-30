@@ -1162,19 +1162,51 @@ async function fetchPrevEcos(key) {
    · fetchKosisTimeSeries(key): 최근 13개월
    · fetchPrevKosis(key): 전년 동기 13개월
    ═══════════════════════════════════════════ */
-/* ─── KOSIS 단일 cfg로 fetch ─────────────────────────────── */
-async function _kosisOneFetch(cfg, sliceFn) {
-  var url = KOSIS_BASE + KOSIS_KEY
-    + '&orgId='  + cfg.orgId
-    + '&tblId='  + cfg.tblId
-    + '&itmId='  + cfg.itmId
-    + '&objL1='  + (cfg.objL1 || '')
-    + '&objL2='  + (cfg.objL2 || '')
-    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+/* ─── KOSIS JSONP fetch (프록시 불필요, CORS 우회) ─────── */
+function _kosisJsonp(cfg, prdSe, newEstPrdCnt) {
+  return new Promise(function(resolve) {
+    var cbName = 'kosis_cb_' + Date.now() + '_' + Math.floor(Math.random()*10000);
+    var timer = setTimeout(function() {
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      resolve(null);
+    }, 10000);
+
+    window[cbName] = function(data) {
+      clearTimeout(timer);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      resolve(Array.isArray(data) ? data : null);
+    };
+
+    var url = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
+      + '?method=getList&format=jsonp&jsonVD=Y&callback=' + cbName
+      + '&prdSe=' + (prdSe || 'M')
+      + '&newEstPrdCnt=' + (newEstPrdCnt || 26)
+      + '&prdInterval=1'
+      + '&apiKey=' + KOSIS_KEY
+      + '&orgId='  + cfg.orgId
+      + '&tblId='  + cfg.tblId
+      + '&itmId='  + cfg.itmId
+      + '&objL1='  + (cfg.objL1 || '')
+      + '&objL2='  + (cfg.objL2 || '')
+      + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
+
+    var script = document.createElement('script');
+    script.src = url;
+    script.onerror = function() {
+      clearTimeout(timer);
+      delete window[cbName];
+      resolve(null);
+    };
+    document.head.appendChild(script);
+  });
+}
+
+async function _kosisOneFetch(cfg, sliceFn, prdSe, newEstPrdCnt) {
   try {
-    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
-    var rows = await res.json();
-    if(!Array.isArray(rows) || rows.length === 0) return null;
+    var rows = await _kosisJsonp(cfg, prdSe, newEstPrdCnt);
+    if(!rows || rows.length === 0) return null;
     var f = cfg.filter;
     var filtered = rows.filter(function(r){
       return Object.keys(f).every(function(k){ return r[k] === f[k]; });
@@ -1274,20 +1306,9 @@ async function loadEcosChart(key) {
 async function fetchKosisAnnual(key) {
   var cfg = KOSIS_ANNUAL_MAP[key];
   if(!cfg) return null;
-  var url = 'http://kosis.kr/openapi/Param/statisticsParameterData.do'
-    + '?method=getList&format=json&jsonVD=Y'
-    + '&prdSe=Y&newEstPrdCnt=13&prdInterval=1'
-    + '&apiKey=' + KOSIS_KEY
-    + '&orgId=' + cfg.orgId
-    + '&tblId=' + cfg.tblId
-    + '&itmId=' + cfg.itmId
-    + '&objL1=' + (cfg.objL1 || '')
-    + '&objL2=' + (cfg.objL2 || '')
-    + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
-    var rows = await res.json();
-    if(!Array.isArray(rows) || rows.length === 0) return null;
+    var rows = await _kosisJsonp(cfg, 'Y', 13);
+    if(!rows || rows.length === 0) return null;
     var f = cfg.filter;
     var filtered = rows.filter(function(r){
       return Object.keys(f).every(function(k){ return r[k] === f[k]; });
