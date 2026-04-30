@@ -582,7 +582,7 @@ var ECOS_KEY    = 'SUMYLXA0YAQ1FNS9I8GL';
 var KOSIS_KEY   = 'MmMwYTNiZWQ5MTJhZmM5MzI3Yzk4N2ZhYTg1N2VhZmQ=';
 var ECOS_BASE_M = 'https://ecos.bok.or.kr/api/StatisticSearch/' + ECOS_KEY + '/json/kr/1/14/';
 var ECOS_BASE_D = 'https://ecos.bok.or.kr/api/StatisticSearch/' + ECOS_KEY + '/json/kr/1/400/';
-var KOSIS_BASE  = 'https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=26&prdInterval=1&apiKey=';
+var KOSIS_BASE  = 'http://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=26&prdInterval=1&apiKey=';
 
 var mc = null;
 var curKey = 'csi';
@@ -852,18 +852,20 @@ var KOSIS_MAP = {
    · selChart에서 KOSIS_ANNUAL_MAP 체크 후 loadKosisAnnualChart 호출
    ═══════════════════════════════════════════ */
 var KOSIS_ANNUAL_MAP = {
-  /* ── 합계출산율 (TFR) - KOSIS 직접 확인 ──────────────────────────
-     tblId: INH_1B8000F_01, prdSe=Y (연간)
-     itmId: T1, objL1: 11 (전국) */
+  /* ── 합계출산율 (TFR) - KOSIS URL 직접 확인
+     itmId=T1+, objL1=11+14+21+24+30+31+ 중 11이 전국 */
   birthrate: {
-    orgId:'101', tblId:'INH_1B8000F_01', itmId:'T1+', objL1:'11+',
+    orgId:'101', tblId:'INH_1B8000F_01',
+    itmId:'T1+',
+    objL1:'11+14+21+24+30+31+',
     filter:{C1:'11', ITM_ID:'T1'}
   },
-  /* ── 조혼인율 - KOSIS 직접 확인 ────────────────────────────────────
-     tblId: INH_1B8000F_03, prdSe=Y (연간)
-     itmId: T1, objL1: 41 (전국 조혼인율) */
+  /* ── 조혼인율 - KOSIS URL 직접 확인
+     itmId=T1+, objL1=41+42+ 중 41이 전국 조혼인율 */
   marriagerate: {
-    orgId:'101', tblId:'INH_1B8000F_03', itmId:'T1+', objL1:'41+',
+    orgId:'101', tblId:'INH_1B8000F_03',
+    itmId:'T1+',
+    objL1:'41+42+',
     filter:{C1:'41', ITM_ID:'T1'}
   }
 };
@@ -1088,7 +1090,7 @@ function updateKPI(d) {
    JS § 11. ECOS API fetch
    · fetchEcosTimeSeries(key): 최근 시계열
    · fetchPrevEcos(key): 전년 동기 시계열
-   · CORS 프록시: ECOS=corsproxy.io / KOSIS=allorigins.win
+   · CORS 프록시: 전체 corsproxy.io / KOSIS는 http:// 로 SSL 우회
    ═══════════════════════════════════════════ */
 async function fetchEcosTimeSeries(key) {
   var cfg = ECOS_MAP[key];
@@ -1170,7 +1172,7 @@ async function _kosisOneFetch(cfg, sliceFn) {
     + '&objL2='  + (cfg.objL2 || '')
     + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res  = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
     var rows = await res.json();
     if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
@@ -1272,7 +1274,7 @@ async function loadEcosChart(key) {
 async function fetchKosisAnnual(key) {
   var cfg = KOSIS_ANNUAL_MAP[key];
   if(!cfg) return null;
-  var url = 'https://kosis.kr/openapi/Param/statisticsParameterData.do'
+  var url = 'http://kosis.kr/openapi/Param/statisticsParameterData.do'
     + '?method=getList&format=json&jsonVD=Y'
     + '&prdSe=Y&newEstPrdCnt=13&prdInterval=1'
     + '&apiKey=' + KOSIS_KEY
@@ -1283,7 +1285,7 @@ async function fetchKosisAnnual(key) {
     + '&objL2=' + (cfg.objL2 || '')
     + '&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=';
   try {
-    var res  = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+    var res  = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
     var rows = await res.json();
     if(!Array.isArray(rows) || rows.length === 0) return null;
     var f = cfg.filter;
