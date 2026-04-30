@@ -811,35 +811,37 @@ var ECOS_MAP = {
    · KOSIS 연동 지표 추가 시 여기에 등록
    ═══════════════════════════════════════════ */
 var KOSIS_MAP = {
-  /* ── 유통채널 ──────────────────────────────────────────────────────
-     산업통상자원부 주요유통업체 매출동향조사 (승인번호 115023호)
-     tblId: DT_11523_NNN (DT_115023_NNN 아님 — 숫자 0 하나 없음)
-     전년동월비 항목코드: T002, 업태코드: 대형마트 0011, 백화점 0013, 편의점 0014 */
-  dept:        {orgId:'115', tblId:'DT_11523_200', itmId:'T002+', objL1:'0013+',
+  /* ── 유통채널 - 산업통상자원부 주요유통업체매출동향 ─────────────────
+     tblId: DT_115023_NNN (KOSIS Open API 직접 확인값)
+     itmId: T002 (전년동월비), T001 (매출액)
+     objL1: 백화점 0013, 대형마트 0011, 편의점 0010 */
+  dept:        {orgId:'115', tblId:'DT_115023_200', itmId:'T002+', objL1:'0013+',
                 filter:{C1:'0013', ITM_ID:'T002'}},
-  mart:        {orgId:'115', tblId:'DT_11523_100', itmId:'T002+', objL1:'0011+',
+  mart:        {orgId:'115', tblId:'DT_115023_100', itmId:'T002+', objL1:'0011+',
                 filter:{C1:'0011', ITM_ID:'T002'}},
-  convenience: {orgId:'115', tblId:'DT_11523_300', itmId:'T002+', objL1:'0014+',
-                filter:{C1:'0014', ITM_ID:'T002'}},
-  /* ── 온라인쇼핑 (통계청 온라인쇼핑동향조사) ────────────────────── */
-  online:      {orgId:'101', tblId:'DT_1KE10051', itmId:'T20+', objL1:'000+', objL2:'00+',
+  convenience: {orgId:'115', tblId:'DT_115023_300', itmId:'T002+', objL1:'0010+',
+                filter:{C1:'0010', ITM_ID:'T002'}},
+  /* ── 온라인쇼핑 - 통계청 온라인쇼핑동향조사 ────────────────────────
+     tblId: DT_1KE10071 (KOSIS 확인값 / 기존 DT_1KE10051 오류)
+     itmId: T20 (거래액 합계), objL1: 000 (전체), objL2: 00 (전체) */
+  online:      {orgId:'101', tblId:'DT_1KE10071', itmId:'T20+', objL1:'000+', objL2:'00+',
                 filter:{C1:'000', C2:'00', ITM_ID:'T20'}},
-  /* ── 주택거래량 (국토교통부) ────────────────────────────────────── */
+  /* ── 주택거래량 - API 미확인, 샘플 유지 ──────────────────────────── */
   housetrade:  {orgId:'116', tblId:'DT_MLTM_2006_S0001', itmId:'T10+', objL1:'00+',
-                filter:{C1:'00', ITM_ID:'T10'},
-                fallback:{orgId:'116', tblId:'DT_MLTM_2400205', itmId:'T10+', objL1:'00+',
-                          filter:{C1:'00', ITM_ID:'T10'}}},
-  /* ── 관광 (한국관광공사 KOSIS 수록분) ──────────────────────────── */
-  tourist:     {orgId:'314', tblId:'DT_TRD_AGE_ENT_AGG_MONTH',
-                itmId:'13103314423T01+', objL1:'13102314423A.1+',
-                filter:{C1:'13102314423A.1', ITM_ID:'13103314423T01'},
-                fallback:{orgId:'551', tblId:'DT_551_KTO_002', itmId:'T1+', objL1:'ALL+',
-                          filter:{ITM_ID:'T1'}}},
+                filter:{C1:'00', ITM_ID:'T10'}},
+  /* ── 방한외국인 - 한국관광공사 외래관광객통계 ──────────────────────
+     tblId: DT_TRD_TGT_ENT_AGG_MONTH (KOSIS 확인값)
+     itmId: 13103314422T01 (입국자수 합계)
+     objL1: 13102314422A.1 (전체 국적 합계) */
+  tourist:     {orgId:'314', tblId:'DT_TRD_TGT_ENT_AGG_MONTH',
+                itmId:'13103314422T01+', objL1:'13102314422A.1+',
+                filter:{C1:'13102314422A.1', ITM_ID:'13103314422T01'}},
+  /* ── 내국인출국 - 한국관광공사 내국인출국통계 ──────────────────────
+     tblId: DT_NEW_AGE_DEP_AGG_MONTH (기존과 동일, prdSe=M 월별)
+     itmId: 13103836116T01, objL1: 13102836116A.01 (전체 합계) */
   outbound:    {orgId:'314', tblId:'DT_NEW_AGE_DEP_AGG_MONTH',
                 itmId:'13103836116T01+', objL1:'13102836116A.01+',
-                filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'},
-                fallback:{orgId:'551', tblId:'DT_551_KTO_001', itmId:'T1+', objL1:'ALL+',
-                          filter:{ITM_ID:'T1'}}},
+                filter:{C1:'13102836116A.01', ITM_ID:'13103836116T01'}}
 };
 
 /* ═══════════════════════════════════════════
@@ -850,15 +852,19 @@ var KOSIS_MAP = {
    · selChart에서 KOSIS_ANNUAL_MAP 체크 후 loadKosisAnnualChart 호출
    ═══════════════════════════════════════════ */
 var KOSIS_ANNUAL_MAP = {
-  /* ── 합계출산율 (TFR) ── */
+  /* ── 합계출산율 (TFR) - KOSIS 직접 확인 ──────────────────────────
+     tblId: INH_1B8000F_01, prdSe=Y (연간)
+     itmId: T1, objL1: 11 (전국) */
   birthrate: {
-    orgId:'101', tblId:'DT_1B8000F', itmId:'T20+', objL1:'00+',
-    filter:{C1:'00', ITM_ID:'T20'}
+    orgId:'101', tblId:'INH_1B8000F_01', itmId:'T1+', objL1:'11+',
+    filter:{C1:'11', ITM_ID:'T1'}
   },
-  /* ── 조혼인율 (인구 1천명당) ── */
+  /* ── 조혼인율 - KOSIS 직접 확인 ────────────────────────────────────
+     tblId: INH_1B8000F_03, prdSe=Y (연간)
+     itmId: T1, objL1: 41 (전국 조혼인율) */
   marriagerate: {
-    orgId:'101', tblId:'DT_1B8000G', itmId:'T5+', objL1:'00+', objL2:'20+',
-    filter:{C1:'00', C2:'20', ITM_ID:'T5'}
+    orgId:'101', tblId:'INH_1B8000F_03', itmId:'T1+', objL1:'41+',
+    filter:{C1:'41', ITM_ID:'T1'}
   }
 };
 
