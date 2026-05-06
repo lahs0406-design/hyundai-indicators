@@ -1079,7 +1079,7 @@ function updateKPI(d) {
    JS § 11. ECOS API fetch
    · fetchEcosTimeSeries(key): 최근 시계열
    · fetchPrevEcos(key): 전년 동기 시계열
-   · CORS 프록시: 전체 corsproxy.io / KOSIS는 http:// 로 SSL 우회
+   · CORS 프록시: ECOS + KOSIS 모두 Cloudflare Worker 경유
    ═══════════════════════════════════════════ */
 async function fetchEcosTimeSeries(key) {
   var cfg = ECOS_MAP[key];
@@ -1105,7 +1105,7 @@ async function fetchEcosTimeSeries(key) {
   if(cfg.item2) ecosUrl += '/'+cfg.item2;
   if(cfg.item3) ecosUrl += '/'+cfg.item3;
   try {
-    var res = await fetch('https://corsproxy.io/?'+encodeURIComponent(ecosUrl));
+    var res = await fetch(KOSIS_PROXY + '?url=' + encodeURIComponent(ecosUrl));
     var json = await res.json();
     var rows = (json.StatisticSearch||{}).row||[];
     if(rows.length===0) return null;
@@ -1138,7 +1138,7 @@ async function fetchPrevEcos(key) {
   if(cfg.item2) base2 += '/'+cfg.item2;
   if(cfg.item3) base2 += '/'+cfg.item3;
   try {
-    var res2=await fetch('https://corsproxy.io/?'+encodeURIComponent(base2));
+    var res2=await fetch(KOSIS_PROXY + '?url=' + encodeURIComponent(base2));
     var outer2=await res2.json();
     var rows2=(outer2.StatisticSearch||{}).row||[];
     if(rows2.length===0) return null;
